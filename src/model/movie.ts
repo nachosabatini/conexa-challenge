@@ -1,4 +1,3 @@
-import { Role } from 'src/config/role.enum';
 import {
   Column,
   CreateDateColumn,
@@ -7,18 +6,21 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class User {
+export class Movie {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ unique: true })
-  email: string;
+  title: string;
 
   @Column()
-  password: string;
+  description: string;
 
-  @Column({ type: 'enum', enum: Role, default: Role.User })
-  roles: Role[];
+  @Column()
+  director: string;
+
+  @Column()
+  releaseDate: number;
 
   @CreateDateColumn()
   createdAt: Date;
