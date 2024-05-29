@@ -1,29 +1,40 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { CreateUserDto } from 'src/user/dto/user.dto';
+import { CreateUserDto } from 'src/model/dto/user.dto';
 import { UserService } from 'src/user/user.service';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-import { Role } from 'src/config/role.enum';
+import { JwtPayload } from '../config/jwt.interface';
+import { User } from 'src/model/entities/user';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly usersService: UserService,
+    private readonly userService: UserService,
     private readonly jwtService: JwtService,
   ) {}
 
-  async register(createUserDto: CreateUserDto) {
+  /**
+   * Register a new user.
+   * @param createUserDto - DTO containing user registration data.
+   * @returns The created user.
+   */
+  async register(createUserDto: CreateUserDto): Promise<User> {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-    const user = await this.usersService.create({
+    const user = await this.userService.create({
       ...createUserDto,
       password: hashedPassword,
-      roles: [Role.User],
     });
     return user;
   }
 
-  async validateUser(email: string, password: string) {
-    const user = await this.usersService.findOneByEmail(email);
+  /**
+   * Validate user credentials.
+   * @param email - User's email.
+   * @param password - User's password.
+   * @returns The user if credentials are valid, otherwise null.
+   */
+  async validateUser(email: string, password: string): Promise<User | null> {
+    const user = await this.userService.findOneByEmail(email);
     if (!user) {
       return null;
     }
@@ -36,16 +47,26 @@ export class AuthService {
     return user;
   }
 
+  /**
+   * Sign in a user.
+   * @param email - User's email.
+   * @param password - User's password.
+   * @returns An object containing the access token.
+   */
   async signIn(
     email: string,
     password: string,
   ): Promise<{ access_token: string }> {
     const user = await this.validateUser(email, password);
     if (!user) {
-      throw new UnauthorizedException('Credenciales inválidas');
+      throw new UnauthorizedException('Invalid credentials');
     }
 
-    const payload = { sub: user.id, email: user.email, roles: user.roles };
+    const payload: JwtPayload = {
+      sub: user.id,
+      email: user.email,
+      roles: user.roles,
+    };
     return {
       access_token: await this.jwtService.signAsync(payload),
     };

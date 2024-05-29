@@ -5,3 +5,9 @@ export class CreateUserDto {
   password: string;
   roles?: Role[];
 }
+
+export class UpdateUserDto {
+  email?: string;
+  password?: string;
+  roles?: Role[];
+}
