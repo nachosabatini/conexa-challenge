@@ -1,8 +1,9 @@
 import { Controller, Get, Post, Body, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from './auth.guard';
-import { CreateUserDto } from '../model/dto/user.dto';
+import { CreateUserDto, UserDto } from '../model/dto/user.dto';
 import { LoginDto } from '../model/dto/login.dto';
+import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -14,7 +15,7 @@ export class AuthController {
    * @returns The created user.
    */
   @Post('register')
-  async register(@Body() createUserDto: CreateUserDto) {
+  async register(@Body() createUserDto: CreateUserDto): Promise<UserDto> {
     return this.authService.register(createUserDto);
   }
 
@@ -34,8 +35,9 @@ export class AuthController {
    * @returns The authenticated user's profile.
    */
   @UseGuards(AuthGuard)
+  @ApiResponse({ status: 200, type: UserDto })
   @Get('profile')
-  getProfile(@Req() req: any) {
+  getProfile(@Req() req: any): UserDto {
     const user = req.user;
     return {
       id: user.id,

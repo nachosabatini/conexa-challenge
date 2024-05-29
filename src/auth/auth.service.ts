@@ -13,11 +13,6 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  /**
-   * Register a new user.
-   * @param createUserDto - DTO containing user registration data.
-   * @returns The created user.
-   */
   async register(createUserDto: CreateUserDto): Promise<User> {
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
     const user = await this.userService.create({
@@ -27,12 +22,6 @@ export class AuthService {
     return user;
   }
 
-  /**
-   * Validate user credentials.
-   * @param email - User's email.
-   * @param password - User's password.
-   * @returns The user if credentials are valid, otherwise null.
-   */
   async validateUser(email: string, password: string): Promise<User | null> {
     const user = await this.userService.findOneByEmail(email);
     if (!user) {
@@ -47,12 +36,6 @@ export class AuthService {
     return user;
   }
 
-  /**
-   * Sign in a user.
-   * @param email - User's email.
-   * @param password - User's password.
-   * @returns An object containing the access token.
-   */
   async signIn(
     email: string,
     password: string,
