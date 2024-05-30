@@ -1,73 +1,127 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Conexa Challenge
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este es un proyecto de desafío desarrollado utilizando NestJS, TypeORM y Swagger. El proyecto incluye la implementación de autenticación JWT, controladores para usuarios y películas, y DTOs para manejar la transferencia de datos.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tabla de Contenidos
 
-## Description
+- [Instalación](#instalación)
+- [Uso](#uso)
+- [Endpoints](#endpoints)
+- [Estructura del Proyecto](#estructura-del-proyecto)
+- [Tests](#tests)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Instalación
 
-## Installation
+### Prerrequisitos
+
+- Node.js (versión 14 o superior)
+- PNPM (versión 6 o superior) o NPM/Yarn
+
+### Pasos de Instalación
+
+1. Clona el repositorio:
+
+   ```sh
+   git clone https://github.com/nachosabatini/conexa-challenge.git
+   cd conexa-challenge
+   ```
+
+2. Instala las dependencias:
+
+   ```sh
+   pnpm install
+   ```
+
+3. Configura las variables de entorno. Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
+
+   ```env
+   DATABASE_URI=postgres://figlzrvj:w2xuRPbQ7V5RmzzWwa3TRd65jly_IpMl@fanny.db.elephantsql.com/figlzrvj
+   PORT=4000
+   NODE_ENV=development
+   JWT_SECRET=f3c48d892dfb19e832b1a8e17e4ed2b4a5d91c5ff3c53deba39403fbf5e54e2b1e2f8e33a4b8f9f6b9cebdab17357d30b2a02e8b4f2d3a9a5c391aebe89c27f1
+   ```
+
+4. La base de datos esta hosteada por lo que no es necesario correr migracion
+
+5. Inicia la aplicación:
+
+   ```sh
+   pnpm start
+   ```
+
+## Uso
+
+Para interactuar con la API, puedes utilizar herramientas como Postman o directamente desde Swagger, que se encuentra en la ruta `/api` de tu servidor.
+
+## Endpoints
+
+### Autenticación
+
+- `POST /auth/login` - Inicia sesión y obtiene un token JWT.
+- `POST /auth/register` - Registra un nuevo usuario.
+
+### Usuarios
+
+- `GET /users` - Obtiene una lista de todos los usuarios.
+- `GET /users/:id` - Obtiene un usuario por ID.
+- `POST /users` - Crea un nuevo usuario.
+- `PUT /users/:id` - Actualiza un usuario existente.
+- `DELETE /users/:id` - Elimina un usuario por ID.
+
+### Películas
+
+- `GET /movies` - Obtiene una lista de todas las películas.
+- `GET /movies/:id` - Obtiene una película por ID.
+- `POST /movies` - Crea una nueva película.
+- `PUT /movies/:id` - Actualiza una película existente.
+- `DELETE /movies/:id` - Elimina una película por ID.
+
+## Estructura del Proyecto
 
 ```bash
-$ pnpm install
+src
+├── auth
+│   ├── auth.controller.ts
+│   ├── auth.module.ts
+│   ├── auth.service.ts
+│   └── auth.guard.ts
+├── config
+│   └── role.enum.ts
+├── utils
+│   ├── decorators
+│   │   └── roles.decorator.ts
+│   └── guards
+│   │ └── roles.guard.ts
+│   └── pipes
+│       └── typePipeValidation.ts
+├── model
+│   ├── dto
+│   │   ├── user.dto.ts
+│   │   └── movie.dto.ts
+│   └── entities
+│       ├── user.ts
+│       └── movie.ts
+├── user
+│   ├── user.controller.ts
+│   ├── user.module.ts
+│   ├── user.service.ts
+├── movie
+│   ├── movie.controller.ts
+│   ├── movie.module.ts
+│   ├── movie.service.ts
+└── main.ts
 ```
 
-## Running the app
+## Tests
 
-```bash
-# development
-$ pnpm run start
+Para ejecutar los tests, utiliza el siguiente comando:
 
-# watch mode
-$ pnpm run start:dev
-
-# production mode
-$ pnpm run start:prod
+```sh
+pnpm test
 ```
 
-## Test
+o para ver el coverage
 
-```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+```sh
+pnpm test:cov
 ```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
