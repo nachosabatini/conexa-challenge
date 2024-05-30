@@ -62,19 +62,19 @@ Para interactuar con la API, puedes utilizar herramientas como Postman o directa
 
 ### Usuarios
 
-- `GET /users` - Obtiene una lista de todos los usuarios.
-- `GET /users/:id` - Obtiene un usuario por ID.
-- `POST /users` - Crea un nuevo usuario.
-- `PUT /users/:id` - Actualiza un usuario existente.
-- `DELETE /users/:id` - Elimina un usuario por ID.
+- `GET /user` - Obtiene una lista de todos los usuarios.
+- `GET /user/:id` - Obtiene un usuario por ID.
+- `POST /user/register` - Crea un nuevo usuario.
+- `PUT /user/:id` - Actualiza un usuario existente.
+- `DELETE /user/:id` - Elimina un usuario por ID.
 
 ### Películas
 
-- `GET /movies` - Obtiene una lista de todas las películas.
-- `GET /movies/:id` - Obtiene una película por ID.
-- `POST /movies` - Crea una nueva película.
-- `PUT /movies/:id` - Actualiza una película existente.
-- `DELETE /movies/:id` - Elimina una película por ID.
+- `GET /movie` - Obtiene una lista de todas las películas.
+- `GET /movie/:id` - Obtiene una película por ID.
+- `POST /movie` - Crea una nueva película.
+- `PUT /movie/:id` - Actualiza una película existente.
+- `DELETE /movie/:id` - Elimina una película por ID.
 
 ## Estructura del Proyecto
 
