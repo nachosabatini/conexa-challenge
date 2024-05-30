@@ -9,6 +9,7 @@ export class MovieDto {
   @ApiProperty()
   @IsString()
   description: string = '';
+
   @ApiProperty()
   @IsString()
   director: string = '';

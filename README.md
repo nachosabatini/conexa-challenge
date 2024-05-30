@@ -125,3 +125,7 @@ o para ver el coverage
 ```sh
 pnpm test:cov
 ```
+
+## Deployment
+
+El proyecto esta hosteado en onRender en la siguiente URL: [https://conexa-challenge.onrender.com/api](https://conexa-challenge.onrender.com/api)

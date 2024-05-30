@@ -15,7 +15,6 @@ import { Role } from 'src/config/role.enum';
 import { Roles } from 'src/utils/decorator/roles.decorator';
 import { RolesGuard } from 'src/utils/Guards/roles.guard';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Movie } from 'src/model/entities/movie';
 
 @ApiTags('movie')
 @Controller('movie')
@@ -32,7 +31,7 @@ export class MovieController {
   @ApiResponse({
     status: 200,
     description: 'Retrieve all movies',
-    type: [Movie],
+    type: [MovieDto],
   })
   async findAll() {
     return this.movieService.findAll();
@@ -45,7 +44,11 @@ export class MovieController {
    */
   @Post()
   @Roles(Role.Admin)
-  @ApiResponse({ status: 201, description: 'Create a new movie', type: Movie })
+  @ApiResponse({
+    status: 201,
+    description: 'Create a new movie',
+    type: MovieDto,
+  })
   async create(@Body() movie: MovieDto) {
     return this.movieService.create(movie);
   }
@@ -60,7 +63,7 @@ export class MovieController {
   @ApiResponse({
     status: 200,
     description: 'Retrieve a movie by ID',
-    type: Movie,
+    type: MovieDto,
   })
   async findOne(@Param('id') id: number) {
     return this.movieService.findOne(id);
@@ -74,7 +77,7 @@ export class MovieController {
    */
   @Put('/:id')
   @Roles(Role.Admin)
-  @ApiResponse({ status: 200, description: 'Update a movie', type: Movie })
+  @ApiResponse({ status: 200, description: 'Update a movie', type: MovieDto })
   async update(@Param('id') id: number, @Body() movie: MovieDto) {
     return this.movieService.update(movie, id);
   }
