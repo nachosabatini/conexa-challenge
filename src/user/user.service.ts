@@ -3,6 +3,7 @@ import {
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/model/entities/user';
 import { Repository } from 'typeorm';
@@ -58,7 +59,8 @@ export class UserService {
       user.email = updateUserDto.email;
     }
     if (updateUserDto.password) {
-      user.password = updateUserDto.password;
+      const hashedPassword = await bcrypt.hash(updateUserDto.password, 10);
+      user.password = hashedPassword;
     }
     if (updateUserDto.roles) {
       user.roles = updateUserDto.roles;
