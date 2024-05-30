@@ -36,7 +36,7 @@ Este es un proyecto de desafío desarrollado utilizando NestJS, TypeORM y Swagge
 3. Configura las variables de entorno. Crea un archivo `.env` en la raíz del proyecto con el siguiente contenido:
 
    ```env
-   DATABASE_URI=postgres://figlzrvj:w2xuRPbQ7V5RmzzWwa3TRd65jly_IpMl@fanny.db.elephantsql.com/figlzrvj
+   DATABASE_URI=postgres://sqsalyvh:6uJHbLac-f-TOVSMy_PkavgGNR3DQwh-@ruby.db.elephantsql.com/sqsalyvh
    PORT=4000
    NODE_ENV=development
    JWT_SECRET=f3c48d892dfb19e832b1a8e17e4ed2b4a5d91c5ff3c53deba39403fbf5e54e2b1e2f8e33a4b8f9f6b9cebdab17357d30b2a02e8b4f2d3a9a5c391aebe89c27f1
@@ -130,3 +130,34 @@ pnpm test:cov
 ## Deployment
 
 El proyecto esta hosteado en onRender en la siguiente URL: [https://conexa-challenge.onrender.com/api](https://conexa-challenge.onrender.com/api)
+
+Para testear en este ambiente aca hay unos datos de prueba:
+
+```json
+[
+  {
+    "id": 1,
+    "email": "admin@gmail.com",
+    "password": "password1234",
+    "roles": "admin",
+    "createdAt": "2024-05-30T18:16:32.904Z"
+  },
+  {
+    "id": 2,
+    "email": "user@gmail.com",
+    "password": "password1234",
+    "roles": "user",
+    "createdAt": "2024-05-30T18:19:04.237Z"
+  }
+]
+```
+
+Si quieren crear un nuevo usuario pueden hacerlo con el endpoint `/auth/register` y luego loguearse con el endpoint `/auth/login` para obtener el token JWT
+
+```json
+{
+  "email": "test@gmail.com",
+  "roles": "admin", // o user, si no mandas nada se setea como user
+  "password": "test1234"
+}
+```
