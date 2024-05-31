@@ -1,4 +1,3 @@
-// src/third-party/swapi.service.ts
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import axios, { AxiosResponse } from 'axios';
 import { FilmDto } from './dto/swapi.dto';

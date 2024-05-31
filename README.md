@@ -76,6 +76,8 @@ Para interactuar con la API, puedes utilizar herramientas como Postman o directa
 - `POST /movie` - Crea una nueva película.
 - `PUT /movie/:id` - Actualiza una película existente.
 - `DELETE /movie/:id` - Elimina una película por ID.
+- `GET /movie/star-wars/films` - Obtiene una lista de todas las películas de Star Wars desde la API de SWAPI.
+- `GET /movie/star-wars/films/:id` - Obtienes la informacion de una pelicula de Star Wars desde la API de SWAPI.
 
 ## Estructura del Proyecto
 
@@ -110,6 +112,9 @@ src
 │   ├── movie.controller.ts
 │   ├── movie.module.ts
 │   ├── movie.service.ts
+├── third-party
+│   ├── swapi.module.ts
+│   ├── swapi.service.ts
 └── main.ts
 ```
 
