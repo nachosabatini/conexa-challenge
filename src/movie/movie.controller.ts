@@ -15,13 +15,18 @@ import { Role } from 'src/config/role.enum';
 import { Roles } from 'src/utils/decorator/roles.decorator';
 import { RolesGuard } from 'src/utils/Guards/roles.guard';
 import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { FilmDto } from 'src/third-party/dto/swapi.dto';
+import { SwapiService } from 'src/third-party/swapi.service';
 
 @ApiTags('movie')
 @Controller('movie')
 @UseGuards(AuthGuard, RolesGuard)
 @ApiBearerAuth()
 export class MovieController {
-  constructor(private readonly movieService: MovieService) {}
+  constructor(
+    private readonly movieService: MovieService,
+    private readonly swapiService: SwapiService,
+  ) {}
 
   /**
    * Retrieve all movies.
@@ -92,5 +97,16 @@ export class MovieController {
   @ApiResponse({ status: 200, description: 'Delete a movie by ID' })
   async remove(@Param('id') id: number) {
     return this.movieService.remove(id);
+  }
+
+  @Get('/star-wars/films')
+  async getAllFilms(): Promise<FilmDto[]> {
+    return await this.swapiService.getAllFilms();
+  }
+
+  @Get('/star-wars/films/:id')
+  @Roles(Role.User)
+  async getFilmById(@Param('id') id: number): Promise<FilmDto> {
+    return await this.swapiService.getFilmById(id);
   }
 }
