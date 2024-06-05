@@ -41,6 +41,7 @@ describe('UserController', () => {
     it('should create a new user', async () => {
       const createUserDto: CreateUserDto = {
         email: 'test@example.com',
+        roles: [Role.User],
         password: 'password123',
       };
       const newUser: User = {
@@ -60,6 +61,7 @@ describe('UserController', () => {
     it('should throw BadRequestException if email already exists', async () => {
       const createUserDto: CreateUserDto = {
         email: 'existing@example.com',
+        roles: [Role.User],
         password: 'password123',
       };
 

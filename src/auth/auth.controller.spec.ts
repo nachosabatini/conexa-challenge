@@ -5,14 +5,21 @@ import { CreateUserDto } from 'src/model/dto/user.dto';
 import { Role } from 'src/config/role.enum';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { UserController } from 'src/user/user.controller';
+import { UserService } from 'src/user/user.service';
+import { Repository } from 'typeorm';
+import { User } from 'src/model/entities/user';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 describe('AuthController', () => {
   let controller: AuthController;
   let authService: AuthService;
+  let userController: UserController;
+  let userRepository: Repository<User>;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [AuthController],
+      controllers: [AuthController, UserController],
       providers: [
         {
           provide: AuthService,
@@ -21,13 +28,26 @@ describe('AuthController', () => {
             signIn: jest.fn(),
           },
         },
+        {
+          provide: UserService,
+          useValue: {
+            register: jest.fn(),
+          },
+        },
         JwtService,
+        UserService,
         ConfigService,
+        {
+          provide: getRepositoryToken(User),
+          useClass: Repository,
+        },
       ],
     }).compile();
 
     controller = module.get<AuthController>(AuthController);
+    userController = module.get<UserController>(UserController);
     authService = module.get<AuthService>(AuthService);
+    userRepository = module.get<Repository<User>>(getRepositoryToken(User));
   });
 
   it('should be defined', () => {
@@ -38,6 +58,7 @@ describe('AuthController', () => {
     it('should register a new user', async () => {
       const createUserDto: CreateUserDto = {
         email: 'test@example.com',
+        roles: [Role.User],
         password: 'password123',
       };
       const result = {
@@ -48,7 +69,7 @@ describe('AuthController', () => {
       };
       jest.spyOn(authService, 'register').mockResolvedValue(result);
 
-      expect(await controller.register(createUserDto)).toEqual(result);
+      expect(await userController.register(createUserDto)).toEqual(result);
     });
   });
 

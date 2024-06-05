@@ -5,4 +5,4 @@ import { SwapiService } from './swapi.service';
   providers: [SwapiService],
   exports: [SwapiService],
 })
-export class AppModule {}
+export class SwapiModule {}

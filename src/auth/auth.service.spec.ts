@@ -45,6 +45,7 @@ describe('AuthService', () => {
     it('should hash password and create user', async () => {
       const createUserDto: CreateUserDto = {
         email: 'test@example.com',
+        roles: [Role.User],
         password: 'password123',
       };
       const hashedPassword = await bcrypt.hash(createUserDto.password, 10);

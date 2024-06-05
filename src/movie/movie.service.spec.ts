@@ -1,3 +1,4 @@
+// src/movie/movie.service.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
 import { MovieService } from './movie.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -5,23 +6,41 @@ import { Movie } from '../model/entities/movie';
 import { Repository } from 'typeorm';
 import { MovieDto } from '../model/dto/movie.dto';
 import { NotFoundException } from '@nestjs/common';
+import { SwapiModule } from 'src/third-party/swapi.module';
+import { MovieController } from './movie.controller';
+import { SwapiService } from 'src/third-party/swapi.service';
+import { JwtService } from '@nestjs/jwt';
+import { RolesGuard } from 'src/utils/Guards/roles.guard';
+import { Reflector } from '@nestjs/core';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { ConfigService } from '@nestjs/config';
 
 describe('MovieService', () => {
   let service: MovieService;
   let repository: Repository<Movie>;
+  let controller: MovieController;
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [SwapiModule], // Importa SwapiModule para proporcionar SwapiService
+      controllers: [MovieController],
       providers: [
         MovieService,
         {
           provide: getRepositoryToken(Movie),
           useClass: Repository,
         },
+        JwtService,
+        SwapiService,
+        ConfigService, // Proveedor adicional en caso de que no se importe correctamente desde el módulo
+        AuthGuard,
+        RolesGuard,
+        Reflector,
       ],
     }).compile();
 
     service = module.get<MovieService>(MovieService);
+    controller = module.get<MovieController>(MovieController);
     repository = module.get<Repository<Movie>>(getRepositoryToken(Movie));
   });
 

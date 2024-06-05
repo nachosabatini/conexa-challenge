@@ -4,6 +4,7 @@ import { MovieService } from './movie.service';
 import { MovieDto } from '../model/dto/movie.dto';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { SwapiModule } from 'src/third-party/swapi.module';
 
 describe('MovieController', () => {
   let controller: MovieController;
@@ -11,6 +12,7 @@ describe('MovieController', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
+      imports: [SwapiModule],
       controllers: [MovieController],
       providers: [
         {
