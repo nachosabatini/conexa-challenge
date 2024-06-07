@@ -1,4 +1,3 @@
-// src/movie/movie.service.spec.ts
 import { Test, TestingModule } from '@nestjs/testing';
 import { MovieService } from './movie.service';
 import { getRepositoryToken } from '@nestjs/typeorm';
@@ -22,7 +21,7 @@ describe('MovieService', () => {
 
   beforeAll(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [SwapiModule], // Importa SwapiModule para proporcionar SwapiService
+      imports: [SwapiModule],
       controllers: [MovieController],
       providers: [
         MovieService,
@@ -32,7 +31,7 @@ describe('MovieService', () => {
         },
         JwtService,
         SwapiService,
-        ConfigService, // Proveedor adicional en caso de que no se importe correctamente desde el módulo
+        ConfigService,
         AuthGuard,
         RolesGuard,
         Reflector,
